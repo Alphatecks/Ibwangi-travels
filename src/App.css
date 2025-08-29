@@ -153,6 +153,23 @@ body {
   color: #108279;
 }
 
+.nav-links a.active {
+  color: #108279;
+  font-weight: 700;
+  position: relative;
+}
+
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #108279;
+  border-radius: 1px;
+}
+
 .signup-btn {
   background: #108279;
   color: white;

@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
+import FlightSearchResults from './FlightSearchResults.jsx'
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('home')
   const [showPromoBanner, setShowPromoBanner] = useState(false)
   const [showCookieBanner, setShowCookieBanner] = useState(true)
   const [cookiesAccepted, setCookiesAccepted] = useState(false)
@@ -213,16 +215,27 @@ function App() {
     }
   }
 
+  // Render different pages based on currentPage state
+  if (currentPage === 'flights') {
+    return <FlightSearchResults />
+  }
+
   return (
     <div className="app">
       {/* Header/Navigation */}
       <header className="header">
         <div className="header-content">
-          <div className="logo">
+          <div className="logo" onClick={() => setCurrentPage('home')} style={{ cursor: 'pointer' }}>
             <img src="/images/logo.png" alt="Ibwangi travel logo" style={{ height: '160px', width: 'auto' }} />
           </div>
           <nav className="nav-links">
-            <a href="#flights">Flights</a>
+            <a 
+              href="#flights" 
+              onClick={(e) => { e.preventDefault(); setCurrentPage('flights'); }}
+              className={currentPage === 'flights' ? 'active' : ''}
+            >
+              Flights
+            </a>
             <a href="#hotels">Hotels</a>
             <a href="#packages">Packages</a>
             <a href="#signin">Sign in</a>
@@ -444,7 +457,7 @@ function App() {
                 </div>
               )}
             </div>
-            <button className="search-btn">Search</button>
+            <button className="search-btn" onClick={() => setCurrentPage('flights')}>Search</button>
           </div>
         </div>
       </main>
