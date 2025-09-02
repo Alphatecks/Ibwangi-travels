@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import FlightSearchResults from './FlightSearchResults.jsx'
+import HotelsPage from './HotelsPage.jsx'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -20,6 +21,7 @@ function App() {
   const [fromSearchTerm, setFromSearchTerm] = useState('')
   const [toSearchTerm, setToSearchTerm] = useState('')
   const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [searchData, setSearchData] = useState(null)
   const datePickerRef = useRef(null)
   const passengerSelectorRef = useRef(null)
   const fromDropdownRef = useRef(null)
@@ -96,6 +98,34 @@ function App() {
       setShowToDropdown(false)
       setToSearchTerm('')
     }
+  }
+
+  // Handle search button click
+  const handleSearch = () => {
+    alert('Button clicked!') // Simple test to see if function is called
+    console.log('handleSearch called')
+    console.log('fromLocation:', fromLocation)
+    console.log('toLocation:', toLocation)
+    console.log('departDate:', departDate)
+    
+    if (!fromLocation || !toLocation || !departDate) {
+      alert('Please fill in all required fields (From, To, and Departure Date)')
+      return
+    }
+
+    const searchData = {
+      from: fromLocation,
+      to: toLocation,
+      departDate: departDate,
+      returnDate: returnDate,
+      adults: adults,
+      minors: minors,
+      totalPassengers: adults + minors
+    }
+
+    console.log('searchData:', searchData)
+    setSearchData(searchData)
+    setCurrentPage('flights')
   }
 
   const handleCloseCookies = () => {
@@ -217,7 +247,11 @@ function App() {
 
   // Render different pages based on currentPage state
   if (currentPage === 'flights') {
-    return <FlightSearchResults />
+    return <FlightSearchResults searchData={searchData} onNavigate={setCurrentPage} />
+  }
+  
+  if (currentPage === 'hotels') {
+    return <HotelsPage onNavigate={setCurrentPage} />
   }
 
   return (
@@ -236,7 +270,13 @@ function App() {
             >
               Flights
             </a>
-            <a href="#hotels">Hotels</a>
+            <a 
+              href="#hotels" 
+              onClick={(e) => { e.preventDefault(); setCurrentPage('hotels'); }}
+              className={currentPage === 'hotels' ? 'active' : ''}
+            >
+              Hotels
+            </a>
             <a href="#packages">Packages</a>
             <a href="#signin">Sign in</a>
           </nav>
@@ -457,7 +497,26 @@ function App() {
                 </div>
               )}
             </div>
-            <button className="search-btn" onClick={() => setCurrentPage('flights')}>Search</button>
+            <button className="search-btn" onClick={() => {
+              console.log('Button clicked directly!')
+              alert('Button clicked!')
+              if (!fromLocation || !toLocation || !departDate) {
+                alert('Please fill in all required fields (From, To, and Departure Date)')
+                return
+              }
+              const searchData = {
+                from: fromLocation,
+                to: toLocation,
+                departDate: departDate,
+                returnDate: returnDate,
+                adults: adults,
+                minors: minors,
+                totalPassengers: adults + minors
+              }
+              console.log('searchData:', searchData)
+              setSearchData(searchData)
+              setCurrentPage('flights')
+            }}>Search</button>
           </div>
         </div>
       </main>

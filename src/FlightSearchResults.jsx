@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './FlightSearchResults.css'
 
-function FlightSearchResults() {
+function FlightSearchResults({ onNavigate }) {
   const [selectedFlight, setSelectedFlight] = useState(null)
   const [showAllFlights, setShowAllFlights] = useState(false)
   const [maxPrice, setMaxPrice] = useState(1000)
@@ -94,12 +94,23 @@ function FlightSearchResults() {
       {/* Header - Same as homepage */}
       <header className="header">
         <div className="header-content">
-          <div className="logo">
+          <div className="logo" onClick={() => onNavigate('home')} style={{ cursor: 'pointer' }}>
             <img src="/images/logo.png" alt="Tripma logo" style={{ height: '160px', width: 'auto' }} />
           </div>
           <nav className="nav-links">
-            <a href="#flights" className="active">Flights</a>
-            <a href="#hotels">Hotels</a>
+            <a 
+              href="#flights" 
+              onClick={(e) => { e.preventDefault(); onNavigate('flights'); }}
+              className="active"
+            >
+              Flights
+            </a>
+            <a 
+              href="#hotels" 
+              onClick={(e) => { e.preventDefault(); onNavigate('hotels'); }}
+            >
+              Hotels
+            </a>
             <a href="#packages">Packages</a>
             <a href="#signin">Sign in</a>
           </nav>
