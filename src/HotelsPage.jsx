@@ -27,7 +27,8 @@ function HotelsPage({ onNavigate }) {
     setGuests(guestText)
   }
 
-  const handleGuestChange = (type, operation) => {
+  const handleGuestChange = (type, operation, event) => {
+    event.stopPropagation()
     if (type === 'adults') {
       if (operation === 'increment') setAdults(prev => prev + 1)
       else if (operation === 'decrement' && adults > 1) setAdults(prev => prev - 1)
@@ -129,33 +130,36 @@ function HotelsPage({ onNavigate }) {
                       <div className="guest-row">
                         <div className="guest-label">
                           <span>Adults</span>
+                          <span className="guest-subtitle">Ages 13 or above</span>
                         </div>
                         <div className="guest-controls">
-                          <button onClick={() => handleGuestChange('adults', 'decrement')} disabled={adults <= 1}>-</button>
+                          <button onClick={(e) => handleGuestChange('adults', 'decrement', e)} disabled={adults <= 1}>-</button>
                           <span>{adults}</span>
-                          <button onClick={() => handleGuestChange('adults', 'increment')}>+</button>
+                          <button onClick={(e) => handleGuestChange('adults', 'increment', e)}>+</button>
                         </div>
                       </div>
                       
                       <div className="guest-row">
                         <div className="guest-label">
                           <span>Children</span>
+                          <span className="guest-subtitle">Ages 0 to 12</span>
                         </div>
                         <div className="guest-controls">
-                          <button onClick={() => handleGuestChange('children', 'decrement')} disabled={children <= 0}>-</button>
+                          <button onClick={(e) => handleGuestChange('children', 'decrement', e)} disabled={children <= 0}>-</button>
                           <span>{children}</span>
-                          <button onClick={() => handleGuestChange('children', 'increment')}>+</button>
+                          <button onClick={(e) => handleGuestChange('children', 'increment', e)}>+</button>
                         </div>
                       </div>
                       
                       <div className="guest-row">
                         <div className="guest-label">
                           <span>Rooms</span>
+                          <span className="guest-subtitle">Number of rooms</span>
                         </div>
                         <div className="guest-controls">
-                          <button onClick={() => handleGuestChange('rooms', 'decrement')} disabled={rooms <= 1}>-</button>
+                          <button onClick={(e) => handleGuestChange('rooms', 'decrement', e)} disabled={rooms <= 1}>-</button>
                           <span>{rooms}</span>
-                          <button onClick={() => handleGuestChange('rooms', 'increment')}>+</button>
+                          <button onClick={(e) => handleGuestChange('rooms', 'increment', e)}>+</button>
                         </div>
                       </div>
                     </div>
@@ -243,7 +247,7 @@ function HotelsPage({ onNavigate }) {
           
           <div className="destinations-grid">
             <div className="destination-card">
-              <img src="/images/image 2.png" alt="Tokyo" />
+              <img src="https://res.klook.com/image/upload/fl_lossy.progressive,c_fill,f_auto,w_750,q_85/v1753091178/hotel/qo84pp0lk3dhctr01zkb.jpg" alt="Tokyo" />
               <div className="destination-info">
                 <h3>Tokyo</h3>
                 <p>1,234 properties</p>
@@ -251,7 +255,7 @@ function HotelsPage({ onNavigate }) {
             </div>
             
             <div className="destination-card">
-              <img src="/images/image 3.png" alt="Kyoto" />
+              <img src="https://assets.hiltonstatic.com/hilton-asset-cache/image/upload/c_fill,w_5333,h_3000,q_90,f_auto/c_fill,w_1920,h_1080,q_90,f_auto/Imagery/Property%20Photography/NoBrand/I/ITMOLOL/Exterior.jpg" alt="Kyoto" />
               <div className="destination-info">
                 <h3>Kyoto</h3>
                 <p>892 properties</p>
@@ -259,7 +263,7 @@ function HotelsPage({ onNavigate }) {
             </div>
             
             <div className="destination-card">
-              <img src="/images/image 4.png" alt="Osaka" />
+              <img src="https://media-cdn.tripadvisor.com/media/photo-s/0d/e9/75/2f/caption.jpg" alt="Osaka" />
               <div className="destination-info">
                 <h3>Osaka</h3>
                 <p>756 properties</p>
@@ -267,10 +271,118 @@ function HotelsPage({ onNavigate }) {
             </div>
             
             <div className="destination-card">
-              <img src="/images/image 5.png" alt="Hiroshima" />
+              <img src="https://cdn-ilanhlf.nitrocdn.com/AzmJrPQohnwWLiYOIRijiymirQDdSgxs/assets/images/optimized/rev-1120628/theluxuryeditor.com/wp-content/uploads/2022/11/395763524.jpeg" alt="Hiroshima" />
               <div className="destination-info">
                 <h3>Hiroshima</h3>
                 <p>423 properties</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Weekend Deals Section */}
+        <section className="weekend-deals-section">
+          <div className="section-header">
+            <h2>Deals for the weekend</h2>
+            <p>Save on stays for September 5 - September 7</p>
+          </div>
+          
+          <div className="weekend-deals-grid">
+            <div className="weekend-deal-card">
+              <div className="deal-image">
+                <img src="https://www.travelstart.com.ng/blog/wp-content/uploads/2014/02/Obudu-Cattle-Ranch1.jpg" alt="Obudu Cattle Ranch Resort" />
+                <div className="genius-badge">Genius</div>
+                <div className="heart-icon">❤️</div>
+              </div>
+              <div className="deal-content">
+                <div className="deal-header">
+                  <h3>Obudu Cattle Ranch Resort</h3>
+                  <div className="deal-location">Cross River, Nigeria</div>
+                </div>
+                <div className="deal-rating">
+                  <span className="rating-score">8.3</span>
+                  <span className="rating-text">Very Good</span>
+                  <span className="review-count">356 reviews</span>
+                </div>
+                <div className="deal-badge">Getaway Deal</div>
+                <div className="deal-price">
+                  <span className="current-price">NGN 207,969</span>
+                  <span className="original-price">NGN 244,669</span>
+                  <span className="price-duration">for 2 nights</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="weekend-deal-card">
+              <div className="deal-image">
+                <img src="https://olatorera.com/wp-content/uploads/2020/11/Obudu-Mountain-Resort-water-park.jpg" alt="Obudu Mountain Resort" />
+                <div className="heart-icon">❤️</div>
+              </div>
+              <div className="deal-content">
+                <div className="deal-header">
+                  <h3>Obudu Mountain Resort & Water Park</h3>
+                  <div className="deal-location">Cross River, Nigeria</div>
+                </div>
+                <div className="deal-rating">
+                  <span className="rating-score">7.0</span>
+                  <span className="rating-text">Good</span>
+                  <span className="review-count">266 reviews</span>
+                </div>
+                <div className="deal-badge">Getaway Deal</div>
+                <div className="deal-price">
+                  <span className="current-price">NGN 80,771</span>
+                  <span className="original-price">NGN 95,023</span>
+                  <span className="price-duration">for 2 nights</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="weekend-deal-card">
+              <div className="deal-image">
+                <img src="https://images.nigeriapropertycentre.com/properties/images/1443085/06311388a8210b-luxurious-beach-resort-wall-shades-of-luxury-short-let-ilashe-lagos.jpg" alt="Luxurious Beach Resort" />
+                <div className="genius-badge">Genius</div>
+                <div className="heart-icon">❤️</div>
+              </div>
+              <div className="deal-content">
+                <div className="deal-header">
+                  <h3>Shades of Luxury Beach Resort</h3>
+                  <div className="deal-location">Ilashe, Lagos</div>
+                </div>
+                <div className="deal-rating">
+                  <span className="rating-score">7.9</span>
+                  <span className="rating-text">Good</span>
+                  <span className="review-count">13 reviews</span>
+                </div>
+                <div className="deal-price">
+                  <span className="current-price">NGN 259,395</span>
+                  <span className="original-price">NGN 418,384</span>
+                  <span className="price-duration">for 2 nights</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="weekend-deal-card">
+              <div className="deal-image">
+                <img src="https://www.mysaltbeach.com/wp-content/uploads/2022/08/Fluer-De-sel-room-768x660.jpg" alt="Fleur De Sel Beach Resort" />
+                <div className="heart-icon">❤️</div>
+                <div className="carousel-arrow">→</div>
+              </div>
+              <div className="deal-content">
+                <div className="deal-header">
+                  <h3>Fleur De Sel Beach Resort</h3>
+                  <div className="deal-location">Lagos, Nigeria</div>
+                </div>
+                <div className="deal-rating">
+                  <span className="rating-score">8.8</span>
+                  <span className="rating-text">Excellent</span>
+                  <span className="review-count">40 reviews</span>
+                </div>
+                <div className="deal-badge">Getaway Deal</div>
+                <div className="deal-price">
+                  <span className="current-price">NGN 187,172</span>
+                  <span className="original-price">NGN 233,965</span>
+                  <span className="price-duration">for 2 nights</span>
+                </div>
               </div>
             </div>
           </div>

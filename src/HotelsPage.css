@@ -63,7 +63,7 @@
   display: flex;
   background: white;
   border-radius: 4px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: none;
   border: 1px solid #e0e0e0;
 }
@@ -126,6 +126,7 @@
 .guests-input {
   flex: 1.5;
   cursor: pointer;
+  position: relative;
 }
 
 /* Search Button */
@@ -154,66 +155,104 @@
   background: white;
   border: 1px solid #e0e0e0;
   border-top: none;
-  border-radius: 0 0 8px 8px;
-  padding: 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 12px 12px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   z-index: 1000;
+  min-width: 280px;
+  margin-top: 2px;
 }
 
 .guest-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  padding: 8px 0;
 }
 
 .guest-row:last-child {
   margin-bottom: 0;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 16px;
+  margin-top: 8px;
+}
+
+.guest-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .guest-label span {
   font-weight: 600;
   color: #333;
   font-size: 16px;
+  line-height: 1.2;
+}
+
+.guest-label .guest-subtitle {
+  font-size: 12px;
+  color: #666;
+  font-weight: 400;
 }
 
 .guest-controls {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 8px 12px;
 }
 
 .guest-controls button {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border: 1px solid #108279;
   background: white;
   color: #108279;
-  border-radius: 4px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .guest-controls button:hover:not(:disabled) {
   background: #108279;
   color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 130, 121, 0.3);
+}
+
+.guest-controls button:active {
+  transform: translateY(0);
 }
 
 .guest-controls button:disabled {
-  opacity: 0.3;
+  opacity: 0.4;
   cursor: not-allowed;
+  background: #f5f5f5;
+  border-color: #ddd;
+  color: #999;
+  box-shadow: none;
 }
 
 .guest-controls span {
-  font-weight: 600;
+  font-weight: 700;
   color: #333;
-  min-width: 20px;
+  min-width: 24px;
   text-align: center;
+  font-size: 18px;
+  background: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
 }
 
 /* Main Content */
@@ -519,4 +558,219 @@
     gap: 12px;
   }
 }
-yo
+
+/* Weekend Deals Section */
+.weekend-deals-section {
+  margin: 60px 0;
+}
+
+.weekend-deals-section .section-header {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.weekend-deals-section .section-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.weekend-deals-section .section-header p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+.weekend-deals-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.weekend-deal-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.weekend-deal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.weekend-deal-card .deal-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.weekend-deal-card .deal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.genius-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #108279;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.heart-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.weekend-deal-card .deal-content {
+  padding: 16px;
+}
+
+.weekend-deal-card .deal-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.weekend-deal-card .deal-location {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.weekend-deal-card .deal-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.weekend-deal-card .rating-score {
+  background: #108279;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.weekend-deal-card .rating-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.weekend-deal-card .review-count {
+  font-size: 12px;
+  color: #666;
+}
+
+.weekend-deal-card .deal-badge {
+  background: #e8f5e8;
+  color: #108279;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.weekend-deal-card .deal-price {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.weekend-deal-card .current-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+}
+
+.weekend-deal-card .original-price {
+  font-size: 14px;
+  color: #666;
+  text-decoration: line-through;
+}
+
+.weekend-deal-card .price-duration {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Responsive styles for weekend deals */
+@media (max-width: 1024px) {
+  .weekend-deals-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .weekend-deals-section .section-header h2 {
+    font-size: 28px;
+  }
+  
+  .weekend-deals-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .weekend-deal-card .deal-content {
+    padding: 12px;
+  }
+  
+  .weekend-deal-card .deal-header h3 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .weekend-deals-section .section-header h2 {
+    font-size: 24px;
+  }
+  
+  .weekend-deal-card .deal-image {
+    height: 160px;
+  }
+}
