@@ -422,6 +422,9 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
+  max-width: 1400px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .section-header h2 {
@@ -447,6 +450,9 @@
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 40px;
   width: 100%;
+  max-width: 1400px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .stay-card {
@@ -512,6 +518,10 @@
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 40px;
   width: 100%;
+  justify-content: start;
+  max-width: 1400px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .search-card {
