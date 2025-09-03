@@ -77,82 +77,84 @@ function HotelsPage({ onNavigate }) {
           <p>Search deals on hotels, homes, and much more...</p>
           
           <div className="search-form">
-            <div className="search-inputs">
-              <div className="input-group destination-input">
-                <span className="input-icon">🏨</span>
-                <input
-                  type="text"
-                  placeholder="Where are you going?"
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                />
-              </div>
-              
-              <div className="input-group dates-input">
-                <span className="input-icon">📅</span>
-                <input
-                  type="text"
-                  placeholder="Check-in date — Check-out date"
-                  value={checkInDate && checkOutDate ? `${checkInDate} — ${checkOutDate}` : ''}
-                  readOnly
-                  onClick={() => {
-                    // Date picker functionality would go here
-                    setCheckInDate('Dec 15')
-                    setCheckOutDate('Dec 18')
-                  }}
-                />
-              </div>
-              
-              <div className="input-group guests-input" onClick={() => setShowGuestSelector(!showGuestSelector)}>
-                <span className="input-icon">👥</span>
-                <input
-                  type="text"
-                  placeholder="2 adults • 0 children • 1 room"
-                  value={guests}
-                  readOnly
-                />
+            <div className="search-container">
+              <div className="search-inputs">
+                <div className="input-group destination-input">
+                  <span className="input-icon">🏨</span>
+                  <input
+                    type="text"
+                    placeholder="Where are you going?"
+                    value={destination}
+                    onChange={(e) => setDestination(e.target.value)}
+                  />
+                </div>
                 
-                {showGuestSelector && (
-                  <div className="guest-selector">
-                    <div className="guest-row">
-                      <div className="guest-label">
-                        <span>Adults</span>
+                <div className="input-group dates-input">
+                  <span className="input-icon">📅</span>
+                  <input
+                    type="text"
+                    placeholder="Check-in date — Check-out date"
+                    value={checkInDate && checkOutDate ? `${checkInDate} — ${checkOutDate}` : ''}
+                    readOnly
+                    onClick={() => {
+                      // Date picker functionality would go here
+                      setCheckInDate('Dec 15')
+                      setCheckOutDate('Dec 18')
+                    }}
+                  />
+                </div>
+                
+                <div className="input-group guests-input" onClick={() => setShowGuestSelector(!showGuestSelector)}>
+                  <span className="input-icon">👥</span>
+                  <input
+                    type="text"
+                    placeholder="2 adults • 0 children • 1 room"
+                    value={guests}
+                    readOnly
+                  />
+                  
+                  {showGuestSelector && (
+                    <div className="guest-selector">
+                      <div className="guest-row">
+                        <div className="guest-label">
+                          <span>Adults</span>
+                        </div>
+                        <div className="guest-controls">
+                          <button onClick={() => handleGuestChange('adults', 'decrement')} disabled={adults <= 1}>-</button>
+                          <span>{adults}</span>
+                          <button onClick={() => handleGuestChange('adults', 'increment')}>+</button>
+                        </div>
                       </div>
-                      <div className="guest-controls">
-                        <button onClick={() => handleGuestChange('adults', 'decrement')} disabled={adults <= 1}>-</button>
-                        <span>{adults}</span>
-                        <button onClick={() => handleGuestChange('adults', 'increment')}>+</button>
+                      
+                      <div className="guest-row">
+                        <div className="guest-label">
+                          <span>Children</span>
+                        </div>
+                        <div className="guest-controls">
+                          <button onClick={() => handleGuestChange('children', 'decrement')} disabled={children <= 0}>-</button>
+                          <span>{children}</span>
+                          <button onClick={() => handleGuestChange('children', 'increment')}>+</button>
+                        </div>
+                      </div>
+                      
+                      <div className="guest-row">
+                        <div className="guest-label">
+                          <span>Rooms</span>
+                        </div>
+                        <div className="guest-controls">
+                          <button onClick={() => handleGuestChange('rooms', 'decrement')} disabled={rooms <= 1}>-</button>
+                          <span>{rooms}</span>
+                          <button onClick={() => handleGuestChange('rooms', 'increment')}>+</button>
+                        </div>
                       </div>
                     </div>
-                    
-                    <div className="guest-row">
-                      <div className="guest-label">
-                        <span>Children</span>
-                      </div>
-                      <div className="guest-controls">
-                        <button onClick={() => handleGuestChange('children', 'decrement')} disabled={children <= 0}>-</button>
-                        <span>{children}</span>
-                        <button onClick={() => handleGuestChange('children', 'increment')}>+</button>
-                      </div>
-                    </div>
-                    
-                    <div className="guest-row">
-                      <div className="guest-label">
-                        <span>Rooms</span>
-                      </div>
-                      <div className="guest-controls">
-                        <button onClick={() => handleGuestChange('rooms', 'decrement')} disabled={rooms <= 1}>-</button>
-                        <span>{rooms}</span>
-                        <button onClick={() => handleGuestChange('rooms', 'increment')}>+</button>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
+                
+                <button className="search-button" onClick={handleSearch}>
+                  Search
+                </button>
               </div>
-              
-              <button className="search-button" onClick={handleSearch}>
-                Search
-              </button>
             </div>
           </div>
         </div>

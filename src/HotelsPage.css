@@ -43,7 +43,20 @@
 
 /* Search Form */
 .search-form {
-  margin-top: 40px;
+  margin-top: 24px;
+  position: relative;
+  z-index: 10;
+}
+
+.search-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  /* Place directly under subtitle using parent margin; no vertical translate */
+  padding: 24px;
 }
 
 .search-inputs {
@@ -51,9 +64,8 @@
   background: white;
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  max-width: 1000px;
-  margin: 0 auto;
+  box-shadow: none;
+  border: 1px solid #e0e0e0;
 }
 
 .input-group {
@@ -208,7 +220,7 @@
 .main-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 60px 20px;
+  padding: 210px 20px 60px 20px;
 }
 
 /* Offers Section */
@@ -241,6 +253,7 @@
 
 .offer-content {
   flex: 1;
+  text-align: left;
 }
 
 .offer-content h3 {
@@ -398,9 +411,12 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+  .search-container {
+    max-width: 600px;
+  }
+  
   .search-inputs {
     flex-direction: column;
-    max-width: 600px;
   }
   
   .input-group {
@@ -426,7 +442,7 @@
 
 @media (max-width: 768px) {
   .hero-section {
-    padding: 60px 20px 80px 20px;
+    padding: 60px 20px 40px 20px;
   }
   
   .hero-section h1 {
@@ -438,7 +454,7 @@
   }
   
   .main-content {
-    padding: 40px 20px;
+    padding: 190px 20px 40px 20px;
   }
   
   .offers-section h2,
@@ -467,6 +483,10 @@
 }
 
 @media (max-width: 480px) {
+  .hero-section {
+    padding: 40px 20px 30px 20px;
+  }
+  
   .hero-section h1 {
     font-size: 28px;
   }
@@ -475,8 +495,13 @@
     font-size: 16px;
   }
   
-  .search-inputs {
+  .search-container {
     margin: 0 10px;
+    /* Keep aligned under subtitle on mobile as well */
+  }
+  
+  .main-content {
+    padding: 160px 20px 40px 20px;
   }
   
   .input-group input {

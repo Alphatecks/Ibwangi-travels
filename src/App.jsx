@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import FlightSearchResults from './FlightSearchResults.jsx'
 import HotelsPage from './HotelsPage.jsx'
+import SignInPage from './SignInPage.jsx'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -254,6 +255,10 @@ function App() {
     return <HotelsPage onNavigate={setCurrentPage} />
   }
 
+  if (currentPage === 'signin') {
+    return <SignInPage onNavigate={setCurrentPage} />
+  }
+
   return (
     <div className="app">
       {/* Header/Navigation */}
@@ -278,9 +283,20 @@ function App() {
               Hotels
             </a>
             <a href="#packages">Packages</a>
-            <a href="#signin">Sign in</a>
+            <a 
+              href="#signin" 
+              onClick={(e) => { e.preventDefault(); setCurrentPage('signin'); }}
+              className={currentPage === 'signin' ? 'active' : ''}
+            >
+              Sign in
+            </a>
           </nav>
-          <button className="signup-btn">Sign up</button>
+          <button 
+            className="signup-btn"
+            onClick={() => setCurrentPage('signin')}
+          >
+            Sign up
+          </button>
         </div>
       </header>
 
