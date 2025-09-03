@@ -24,7 +24,7 @@ function FlightResults() {
       <header className="results-header">
         <div className="header-content">
           <div className="logo-section">
-            <img src="/images/logo.png" alt="Tripma" className="logo" />
+            <img src="/images/logo.png" alt="Ibwangi travel" className="logo" />
           </div>
           <nav className="header-nav">
             <a href="#flights">Flights</a>
@@ -275,7 +275,7 @@ function FlightResults() {
               <button className="buy-soon-btn">Buy soon</button>
               <p className="price-analysis">
                 Average cost is $750, but could rise 18% to $885 in two weeks.
-                Tripma analyzes data for the best deal.
+                Ibwangi travel analyzes data for the best deal.
               </p>
             </div>
           </div>
@@ -355,13 +355,13 @@ function FlightResults() {
         <div className="footer-content">
           <div className="footer-section">
             <div className="footer-logo">
-              <img src="/images/logo.png" alt="Tripma logo" className="footer-logo-img" />
+              <img src="/images/logo.png" alt="Ibwangi travel logo" className="footer-logo-img" />
             </div>
           </div>
           <div className="footer-section">
             <h4>About</h4>
             <ul>
-              <li><a href="#about">About Tripma</a></li>
+              <li><a href="#about">About Ibwangi travel</a></li>
               <li><a href="#how-it-works">How it works</a></li>
               <li><a href="#careers">Careers</a></li>
               <li><a href="#press">Press</a></li>
@@ -394,8 +394,8 @@ function FlightResults() {
           </div>
           <div className="footer-section">
             <h4>Get the app</h4>
-            <p>Tripma for Android</p>
-            <p>Tripma for iOS</p>
+            <p>Ibwangi travel for Android</p>
+            <p>Ibwangi travel for iOS</p>
             <p>Mobile site</p>
             <div className="app-badges">
               <div className="app-badge">Download on the App Store</div>
@@ -409,7 +409,7 @@ function FlightResults() {
             <a href="#instagram">📷</a>
             <a href="#facebook">📘</a>
           </div>
-          <div className="copyright">© 2020 Tripma incorporated</div>
+          <div className="copyright">© 2020 Ibwangi travel incorporated</div>
         </div>
       </footer>
     </div>

@@ -47,7 +47,7 @@ function HotelsPage({ onNavigate }) {
       <header className="header">
         <div className="header-content">
           <div className="logo" onClick={() => onNavigate('home')} style={{ cursor: 'pointer' }}>
-            <img src="/images/logo.png" alt="Tripma logo" style={{ height: '160px', width: 'auto' }} />
+            <img src="/images/logo.png" alt="Ibwangi travel logo" style={{ height: '160px', width: 'auto' }} />
           </div>
           <nav className="nav-links">
             <a 
@@ -282,13 +282,13 @@ function HotelsPage({ onNavigate }) {
         <div className="footer-content">
           <div className="footer-section">
             <div className="footer-logo">
-              <img src="/images/logo.png" alt="Tripma logo" style={{ height: '160px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
+              <img src="/images/logo.png" alt="Ibwangi travel logo" style={{ height: '160px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
             </div>
           </div>
           <div className="footer-section">
             <h4>About</h4>
             <ul>
-              <li><a href="#about">About Tripma</a></li>
+              <li><a href="#about">About Ibwangi travel</a></li>
               <li><a href="#how-it-works">How it works</a></li>
               <li><a href="#careers">Careers</a></li>
               <li><a href="#press">Press</a></li>
@@ -321,8 +321,8 @@ function HotelsPage({ onNavigate }) {
           </div>
           <div className="footer-section">
             <h4>Get the app</h4>
-            <p>Tripma for Android</p>
-            <p>Tripma for iOS</p>
+            <p>Ibwangi travel for Android</p>
+            <p>Ibwangi travel for iOS</p>
             <p>Mobile site</p>
           </div>
         </div>
@@ -332,7 +332,7 @@ function HotelsPage({ onNavigate }) {
             <a href="#twitter">🐦</a>
             <a href="#facebook">📘</a>
           </div>
-          <div className="copyright">© 2020 Tripma incorporated</div>
+          <div className="copyright">© 2020 Ibwangi travel incorporated</div>
         </div>
       </footer>
     </div>

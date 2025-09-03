@@ -95,7 +95,7 @@ function FlightSearchResults({ onNavigate }) {
       <header className="header">
         <div className="header-content">
           <div className="logo" onClick={() => onNavigate('home')} style={{ cursor: 'pointer' }}>
-            <img src="/images/logo.png" alt="Tripma logo" style={{ height: '160px', width: 'auto' }} />
+            <img src="/images/logo.png" alt="Ibwangi travel logo" style={{ height: '160px', width: 'auto' }} />
           </div>
           <nav className="nav-links">
             <a 
@@ -305,7 +305,7 @@ function FlightSearchResults({ onNavigate }) {
               <h3>Price rating</h3>
               <div className="rating-content">
                 <div className="rating-badge">Buy soon</div>
-                <p>The average cost of this flight is $750, but could rise 18% to $885 in two weeks. Tripma analyzes thousands of flights, prices, and trends to ensure you get the best deal.</p>
+                <p>The average cost of this flight is $750, but could rise 18% to $885 in two weeks. Ibwangi travel analyzes thousands of flights, prices, and trends to ensure you get the best deal.</p>
               </div>
             </div>
           </div>
@@ -397,13 +397,13 @@ function FlightSearchResults({ onNavigate }) {
         <div className="footer-content">
           <div className="footer-section">
             <div className="footer-logo">
-              <img src="/images/logo.png" alt="Tripma logo" style={{ height: '160px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
+              <img src="/images/logo.png" alt="Ibwangi travel logo" style={{ height: '160px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
             </div>
           </div>
           <div className="footer-section">
             <h4>About</h4>
             <ul>
-              <li><a href="#about">About Tripma</a></li>
+              <li><a href="#about">About Ibwangi travel</a></li>
               <li><a href="#how-it-works">How it works</a></li>
               <li><a href="#careers">Careers</a></li>
               <li><a href="#press">Press</a></li>

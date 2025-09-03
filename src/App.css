@@ -375,7 +375,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .section-header h2 {
@@ -402,6 +402,12 @@ body {
   background: #fafafa;
   width: 100vw;
   margin: 0;
+}
+
+.flight-deals .section-header {
+  max-width: 1200px;
+  margin: 0 auto 40px auto;
+  padding: 0 20px;
 }
 
 .deals-grid {
@@ -450,6 +456,18 @@ body {
   background-image: url('/images/image 4.png');
 }
 
+.deal-image.maldives {
+  background-image: url('/images/image 5.png');
+}
+
+.deal-image.morocco {
+  background-image: url('/images/image 3.png');
+}
+
+.deal-image.mongolia {
+  background-image: url('/images/image 2.png');
+}
+
 .deal-content {
   padding: 20px;
 }
@@ -481,13 +499,20 @@ body {
   margin: 0;
 }
 
-.stays-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 30px;
+.unique-stays .section-header {
   max-width: 1200px;
   margin: 0 auto 40px auto;
   padding: 0 20px;
+}
+
+.stays-grid {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
 }
 
 .stay-card {
@@ -520,6 +545,10 @@ body {
 
 .stay-image.mongolia {
   background-image: url('/images/image 2.png');
+}
+
+.stay-image.kenya {
+  background-image: url('/images/image 4.png');
 }
 
 .stay-content {
@@ -566,6 +595,12 @@ body {
   background: white;
   width: 100vw;
   margin: 0;
+}
+
+.testimonials .section-header {
+  max-width: 1200px;
+  margin: 0 auto 40px auto;
+  padding: 0 20px;
 }
 
 .testimonials-grid {

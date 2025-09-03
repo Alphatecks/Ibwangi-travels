@@ -580,36 +580,40 @@ function App() {
       </section>
 
       {/* Unique Stays Section */}
-      <section className="unique-stays">
+      <section className="flight-deals">
         <div className="section-header">
           <h2>Explore unique places to stay</h2>
           <a href="#all-stays" className="all-link">All→</a>
         </div>
-        <div className="stays-grid">
-          <div className="stay-card">
-            <div className="stay-image maldives"></div>
-            <div className="stay-content">
+        <div className="deals-grid">
+          <div className="deal-card">
+            <div className="deal-image maldives"></div>
+            <div className="deal-content">
               <h3>Stay among the atolls in Maldives</h3>
               <p>From the 2nd century AD, the islands were known as the 'Money Isles' due to the abundance of cowry shells, a currency of the early ages.</p>
             </div>
           </div>
-          <div className="stay-card">
-            <div className="stay-image morocco"></div>
-            <div className="stay-content">
+          <div className="deal-card">
+            <div className="deal-image morocco"></div>
+            <div className="deal-content">
               <h3>Experience the Ourika Valley in Morocco</h3>
               <p>Morocco's Hispano-Moorish architecture blends influences from Berber culture, Spain, and contemporary artistic currents in the Middle East.</p>
             </div>
           </div>
-          <div className="stay-card">
-            <div className="stay-image mongolia"></div>
-            <div className="stay-content">
+          <div className="deal-card">
+            <div className="deal-image mongolia"></div>
+            <div className="deal-content">
               <h3>Live traditionally in Mongolia</h3>
               <p>Traditional Mongolian yurts consists of an angled latticework of wood or bamboo for walls, ribs, and a wheel.</p>
             </div>
           </div>
-        </div>
-        <div className="explore-more">
-          <button className="explore-btn">Explore more stays</button>
+          <div className="deal-card">
+            <div className="deal-image kenya"></div>
+            <div className="deal-content">
+              <h3>Experience wildlife in Kenya</h3>
+              <p>Discover the vast savannas and diverse wildlife of Kenya's national parks, home to the Big Five and countless other species.</p>
+            </div>
+          </div>
         </div>
       </section>
 
