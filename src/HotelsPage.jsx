@@ -64,9 +64,20 @@ function HotelsPage({ onNavigate }) {
               Hotels
             </a>
             <a href="#packages">Packages</a>
-            <a href="#signin">Sign in</a>
+            <a 
+              href="#signin" 
+              onClick={(e) => { e.preventDefault(); onNavigate('signin'); }}
+              className={onNavigate === 'signin' ? 'active' : ''}
+            >
+              Sign in
+            </a>
           </nav>
-          <button className="signup-btn">Sign up</button>
+          <button 
+            className="signup-btn"
+            onClick={() => onNavigate('signin')}
+          >
+            Sign up
+          </button>
         </div>
       </header>
 
