@@ -111,7 +111,7 @@ function FlightSearchResults({ onNavigate }) {
             >
               Hotels
             </a>
-            <a href="#packages">Packages</a>
+            <a href="#faq">FAQ</a>
             <a 
               href="#signin" 
               onClick={(e) => { e.preventDefault(); onNavigate('signin'); }}
@@ -442,12 +442,7 @@ function FlightSearchResults({ onNavigate }) {
           </div>
         </div>
         <div className="footer-bottom">
-          <div className="social-links">
-            <a href="#instagram">📷</a>
-            <a href="#twitter">🐦</a>
-            <a href="#facebook">📘</a>
-          </div>
-          <div className="copyright">© 2020 Tripma incorporated</div>
+          <div className="copyright">© 2020 Ibwangi travel incorporated</div>
         </div>
       </footer>
     </div>

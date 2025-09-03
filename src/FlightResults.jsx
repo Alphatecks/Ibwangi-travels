@@ -29,7 +29,7 @@ function FlightResults() {
           <nav className="header-nav">
             <a href="#flights">Flights</a>
             <a href="#hotels">Hotels</a>
-            <a href="#packages">Packages</a>
+            <a href="#faq">FAQ</a>
             <a href="#signin">Sign in</a>
             <button className="signup-btn">Sign up</button>
           </nav>
@@ -404,11 +404,6 @@ function FlightResults() {
           </div>
         </div>
         <div className="footer-bottom">
-          <div className="social-links">
-            <a href="#twitter">🐦</a>
-            <a href="#instagram">📷</a>
-            <a href="#facebook">📘</a>
-          </div>
           <div className="copyright">© 2020 Ibwangi travel incorporated</div>
         </div>
       </footer>

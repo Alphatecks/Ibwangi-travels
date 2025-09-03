@@ -10,6 +10,8 @@ function HotelsPage({ onNavigate }) {
   const [adults, setAdults] = useState(2)
   const [children, setChildren] = useState(0)
   const [rooms, setRooms] = useState(1)
+  const [favorites, setFavorites] = useState(new Set())
+  const [popAnimation, setPopAnimation] = useState(null)
 
   const handleSearch = () => {
     console.log('Searching hotels...', {
@@ -42,6 +44,26 @@ function HotelsPage({ onNavigate }) {
     setTimeout(updateGuestDisplay, 0)
   }
 
+  const handleFavoriteToggle = (propertyId, event) => {
+    event.stopPropagation()
+    setPopAnimation(propertyId)
+    
+    setFavorites(prev => {
+      const newFavorites = new Set(prev)
+      if (newFavorites.has(propertyId)) {
+        newFavorites.delete(propertyId)
+      } else {
+        newFavorites.add(propertyId)
+      }
+      return newFavorites
+    })
+    
+    // Remove pop animation after 300ms
+    setTimeout(() => {
+      setPopAnimation(null)
+    }, 300)
+  }
+
   return (
     <div className="hotels-page">
       {/* Header - Same as existing */}
@@ -64,7 +86,7 @@ function HotelsPage({ onNavigate }) {
             >
               Hotels
             </a>
-            <a href="#packages">Packages</a>
+            <a href="#faq">FAQ</a>
             <a 
               href="#signin" 
               onClick={(e) => { e.preventDefault(); onNavigate('signin'); }}
@@ -292,7 +314,12 @@ function HotelsPage({ onNavigate }) {
               <div className="deal-image">
                 <img src="https://www.travelstart.com.ng/blog/wp-content/uploads/2014/02/Obudu-Cattle-Ranch1.jpg" alt="Obudu Cattle Ranch Resort" />
                 <div className="genius-badge">Genius</div>
-                <div className="heart-icon">❤️</div>
+                <div 
+                  className={`heart-icon ${favorites.has('obudu-cattle-ranch') ? 'favorited' : ''} ${popAnimation === 'obudu-cattle-ranch' ? 'pop' : ''}`}
+                  onClick={(e) => handleFavoriteToggle('obudu-cattle-ranch', e)}
+                >
+                  {favorites.has('obudu-cattle-ranch') ? '❤️' : '🤍'}
+                </div>
               </div>
               <div className="deal-content">
                 <div className="deal-header">
@@ -316,7 +343,12 @@ function HotelsPage({ onNavigate }) {
             <div className="weekend-deal-card">
               <div className="deal-image">
                 <img src="https://olatorera.com/wp-content/uploads/2020/11/Obudu-Mountain-Resort-water-park.jpg" alt="Obudu Mountain Resort" />
-                <div className="heart-icon">❤️</div>
+                <div 
+                  className={`heart-icon ${favorites.has('obudu-mountain-resort') ? 'favorited' : ''} ${popAnimation === 'obudu-mountain-resort' ? 'pop' : ''}`}
+                  onClick={(e) => handleFavoriteToggle('obudu-mountain-resort', e)}
+                >
+                  {favorites.has('obudu-mountain-resort') ? '❤️' : '🤍'}
+                </div>
               </div>
               <div className="deal-content">
                 <div className="deal-header">
@@ -341,7 +373,12 @@ function HotelsPage({ onNavigate }) {
               <div className="deal-image">
                 <img src="https://images.nigeriapropertycentre.com/properties/images/1443085/06311388a8210b-luxurious-beach-resort-wall-shades-of-luxury-short-let-ilashe-lagos.jpg" alt="Luxurious Beach Resort" />
                 <div className="genius-badge">Genius</div>
-                <div className="heart-icon">❤️</div>
+                <div 
+                  className={`heart-icon ${favorites.has('shades-of-luxury') ? 'favorited' : ''} ${popAnimation === 'shades-of-luxury' ? 'pop' : ''}`}
+                  onClick={(e) => handleFavoriteToggle('shades-of-luxury', e)}
+                >
+                  {favorites.has('shades-of-luxury') ? '❤️' : '🤍'}
+                </div>
               </div>
               <div className="deal-content">
                 <div className="deal-header">
@@ -364,8 +401,12 @@ function HotelsPage({ onNavigate }) {
             <div className="weekend-deal-card">
               <div className="deal-image">
                 <img src="https://www.mysaltbeach.com/wp-content/uploads/2022/08/Fluer-De-sel-room-768x660.jpg" alt="Fleur De Sel Beach Resort" />
-                <div className="heart-icon">❤️</div>
-                <div className="carousel-arrow">→</div>
+                <div 
+                  className={`heart-icon ${favorites.has('fleur-de-sel') ? 'favorited' : ''} ${popAnimation === 'fleur-de-sel' ? 'pop' : ''}`}
+                  onClick={(e) => handleFavoriteToggle('fleur-de-sel', e)}
+                >
+                  {favorites.has('fleur-de-sel') ? '❤️' : '🤍'}
+                </div>
               </div>
               <div className="deal-content">
                 <div className="deal-header">
@@ -382,6 +423,192 @@ function HotelsPage({ onNavigate }) {
                   <span className="current-price">NGN 187,172</span>
                   <span className="original-price">NGN 233,965</span>
                   <span className="price-duration">for 2 nights</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="weekend-deal-card">
+              <div className="deal-image">
+                <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1401079709555135507/original/ae51e920-bed9-4453-88ff-6ed7e57c601f.jpeg" alt="Luxury Villa" />
+                <div className="genius-badge">Genius</div>
+                <div 
+                  className={`heart-icon ${favorites.has('luxury-villa') ? 'favorited' : ''} ${popAnimation === 'luxury-villa' ? 'pop' : ''}`}
+                  onClick={(e) => handleFavoriteToggle('luxury-villa', e)}
+                >
+                  {favorites.has('luxury-villa') ? '❤️' : '🤍'}
+                </div>
+              </div>
+              <div className="deal-content">
+                <div className="deal-header">
+                  <h3>Luxury Villa Retreat</h3>
+                  <div className="deal-location">Lagos, Nigeria</div>
+                </div>
+                <div className="deal-rating">
+                  <span className="rating-score">9.1</span>
+                  <span className="rating-text">Superb</span>
+                  <span className="review-count">78 reviews</span>
+                </div>
+                <div className="deal-badge">Top Pick</div>
+                <div className="deal-price">
+                  <span className="current-price">NGN 320,000</span>
+                  <span className="original-price">NGN 400,000</span>
+                  <span className="price-duration">for 2 nights</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="weekend-deal-card">
+              <div className="deal-image">
+                <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQyODI1NDYzMTUxMTU1NzAyNw==/original/2236972d-67f2-4ac6-857e-fd707c783cc0.jpeg" alt="Beachfront Paradise" />
+                <div 
+                  className={`heart-icon ${favorites.has('beachfront-paradise') ? 'favorited' : ''} ${popAnimation === 'beachfront-paradise' ? 'pop' : ''}`}
+                  onClick={(e) => handleFavoriteToggle('beachfront-paradise', e)}
+                >
+                  {favorites.has('beachfront-paradise') ? '❤️' : '🤍'}
+                </div>
+                <div className="carousel-arrow">›</div>
+              </div>
+              <div className="deal-content">
+                <div className="deal-header">
+                  <h3>Beachfront Paradise Resort</h3>
+                  <div className="deal-location">Lagos, Nigeria</div>
+                </div>
+                <div className="deal-rating">
+                  <span className="rating-score">8.5</span>
+                  <span className="rating-text">Very Good</span>
+                  <span className="review-count">120 reviews</span>
+                </div>
+                <div className="deal-badge">Exclusive Offer</div>
+                <div className="deal-price">
+                  <span className="current-price">NGN 135,000</span>
+                  <span className="original-price">NGN 180,000</span>
+                  <span className="price-duration">for 2 nights</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Unique Properties Section */}
+        <section className="unique-properties-section">
+          <div className="section-header">
+            <h2>Stay at our top unique properties</h2>
+            <p>From castles and villas to boats and igloos, we have it all</p>
+          </div>
+          <div className="unique-properties-grid">
+            <div className="unique-property-card">
+              <div className="property-image">
+                <img src="https://loveincorporated.blob.core.windows.net/contentimages/main/753333be-b7b1-4018-84ab-a3de77a188df-americas-best-remote-airbnbs.jpg" alt="Remote Mountain Cabin" />
+                <div 
+                  className={`heart-icon ${favorites.has('remote-mountain-cabin') ? 'favorited' : ''} ${popAnimation === 'remote-mountain-cabin' ? 'pop' : ''}`}
+                  onClick={(e) => handleFavoriteToggle('remote-mountain-cabin', e)}
+                >
+                  {favorites.has('remote-mountain-cabin') ? '❤️' : '🤍'}
+                </div>
+              </div>
+              <div className="property-content">
+                <h3>Remote Mountain Cabin</h3>
+                <div className="property-location">Colorado, USA</div>
+                <div className="property-rating">
+                  <span className="rating-score">9.6</span>
+                  <span className="rating-text">Exceptional</span>
+                  <span className="review-count">91 reviews</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="unique-property-card">
+              <div className="property-image">
+                <img src="https://www.travelandleisure.com/thmb/01Jn7hn_p1wlJbHiV_FhHc7tHSY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/a-fram-cabin-jefferson-COAIRBNBS0321-49406499d57b40af8fff1385550187c7.jpg" alt="A-Frame Cabin" />
+                <div 
+                  className={`heart-icon ${favorites.has('a-frame-cabin') ? 'favorited' : ''} ${popAnimation === 'a-frame-cabin' ? 'pop' : ''}`}
+                  onClick={(e) => handleFavoriteToggle('a-frame-cabin', e)}
+                >
+                  {favorites.has('a-frame-cabin') ? '❤️' : '🤍'}
+                </div>
+              </div>
+              <div className="property-content">
+                <h3>A-Frame Cabin Retreat</h3>
+                <div className="property-location">Jefferson, Colorado</div>
+                <div className="property-rating">
+                  <span className="rating-score">9.6</span>
+                  <span className="rating-text">Exceptional</span>
+                  <span className="review-count">146 reviews</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="unique-property-card">
+              <div className="property-image">
+                <img src="https://s1.at.atcdn.net/wp-content/uploads/2021/10/HERO_Eh-Frame.jpg" alt="Modern A-Frame House" />
+                <div 
+                  className={`heart-icon ${favorites.has('modern-a-frame') ? 'favorited' : ''} ${popAnimation === 'modern-a-frame' ? 'pop' : ''}`}
+                  onClick={(e) => handleFavoriteToggle('modern-a-frame', e)}
+                >
+                  {favorites.has('modern-a-frame') ? '❤️' : '🤍'}
+                </div>
+              </div>
+              <div className="property-content">
+                <h3>Modern A-Frame House</h3>
+                <div className="property-location">Utah, USA</div>
+                <div className="property-rating">
+                  <span className="rating-score">9.6</span>
+                  <span className="rating-text">Exceptional</span>
+                  <span className="review-count">140 reviews</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="unique-property-card">
+              <div className="property-image">
+                <img src="https://images.squarespace-cdn.com/content/v1/55cb6a03e4b08dc9aca94598/1531429805546-9ZM6IBW41GEMX8ZGTJWZ/A-Frame-Haus-Utah-Best-Airbnb-1.jpg" alt="A-Frame Haus" />
+                <div 
+                  className={`heart-icon ${favorites.has('a-frame-haus') ? 'favorited' : ''} ${popAnimation === 'a-frame-haus' ? 'pop' : ''}`}
+                  onClick={(e) => handleFavoriteToggle('a-frame-haus', e)}
+                >
+                  {favorites.has('a-frame-haus') ? '❤️' : '🤍'}
+                </div>
+              </div>
+              <div className="property-content">
+                <h3>A-Frame Haus</h3>
+                <div className="property-location">Utah, USA</div>
+                <div className="property-rating">
+                  <span className="rating-score">9.5</span>
+                  <span className="rating-text">Exceptional</span>
+                  <span className="review-count">43 reviews</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="unique-property-card">
+              <div className="property-image">
+                <img src="https://images.squarespace-cdn.com/content/v1/55cb6a03e4b08dc9aca94598/1531433223245-L97NLH8FEAB902IXGWLC/image-asset.jpeg" alt="Luxury A-Frame" />
+                <div className="heart-icon">❤️</div>
+              </div>
+              <div className="property-content">
+                <h3>Luxury A-Frame Villa</h3>
+                <div className="property-location">California, USA</div>
+                <div className="property-rating">
+                  <span className="rating-score">9.7</span>
+                  <span className="rating-text">Exceptional</span>
+                  <span className="review-count">89 reviews</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="unique-property-card">
+              <div className="property-image">
+                <img src="https://a0.muscache.com/im/pictures/miso/Hosting-563220105403501124/original/bb74bc5a-571a-4603-a36c-afe9131b3619.jpeg" alt="Mountain Retreat" />
+                <div className="heart-icon">❤️</div>
+                <div className="carousel-arrow">›</div>
+              </div>
+              <div className="property-content">
+                <h3>Mountain Retreat Lodge</h3>
+                <div className="property-location">Montana, USA</div>
+                <div className="property-rating">
+                  <span className="rating-score">9.4</span>
+                  <span className="rating-text">Exceptional</span>
+                  <span className="review-count">67 reviews</span>
                 </div>
               </div>
             </div>
@@ -439,11 +666,6 @@ function HotelsPage({ onNavigate }) {
           </div>
         </div>
         <div className="footer-bottom">
-          <div className="social-links">
-            <a href="#instagram">📷</a>
-            <a href="#twitter">🐦</a>
-            <a href="#facebook">📘</a>
-          </div>
           <div className="copyright">© 2020 Ibwangi travel incorporated</div>
         </div>
       </footer>

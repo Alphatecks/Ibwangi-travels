@@ -32,7 +32,7 @@ function HomePage() {
           <nav className="header-nav">
             <a href="#flights">Flights</a>
             <a href="#hotels">Hotels</a>
-            <a href="#packages">Packages</a>
+            <a href="#faq">FAQ</a>
             <a href="#signin">Sign in</a>
             <button className="signup-btn">Sign up</button>
           </nav>
