@@ -565,7 +565,7 @@
 }
 
 .weekend-deals-section .section-header {
-  text-align: left;
+  text-align: center;
   margin-bottom: 30px;
 }
 
@@ -701,8 +701,10 @@
 .weekend-deal-card .deal-rating {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   margin-bottom: 12px;
+  flex-wrap: wrap;
 }
 
 .weekend-deal-card .rating-score {
@@ -712,17 +714,20 @@
   border-radius: 4px;
   font-size: 12px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .weekend-deal-card .rating-text {
   font-size: 14px;
   font-weight: 500;
   color: #333;
+  white-space: nowrap;
 }
 
 .weekend-deal-card .review-count {
   font-size: 12px;
   color: #666;
+  white-space: nowrap;
 }
 
 .weekend-deal-card .deal-badge {
@@ -819,7 +824,7 @@
 }
 
 .unique-properties-section .section-header {
-  text-align: left;
+  text-align: center;
   margin-bottom: 30px;
 }
 
@@ -945,7 +950,9 @@
 .unique-property-card .property-rating {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .unique-property-card .rating-score {
@@ -955,17 +962,20 @@
   border-radius: 4px;
   font-size: 12px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .unique-property-card .rating-text {
   font-size: 14px;
   font-weight: 500;
   color: #333;
+  white-space: nowrap;
 }
 
 .unique-property-card .review-count {
   font-size: 12px;
   color: #666;
+  white-space: nowrap;
 }
 
 /* Responsive styles for unique properties */

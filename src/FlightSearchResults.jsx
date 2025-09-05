@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import './FlightSearchResults.css'
 
-function FlightSearchResults({ onNavigate }) {
+function FlightSearchResults({ searchData, onNavigate }) {
   const [selectedFlight, setSelectedFlight] = useState(null)
   const [showAllFlights, setShowAllFlights] = useState(false)
   const [maxPrice, setMaxPrice] = useState(1000)
   const [selectedAirline, setSelectedAirline] = useState('all')
   const [selectedClass, setSelectedClass] = useState('all')
 
-  // Realistic flight data
-  const flights = [
+  // Mock flight data (fallback)
+  const mockFlights = [
     {
       id: 1,
       airline: 'Hawaiian Airlines',
@@ -78,7 +78,56 @@ function FlightSearchResults({ onNavigate }) {
     }
   ]
 
-  const airlines = ['all', 'Hawaiian Airlines', 'Japan Airlines', 'Delta', 'United', 'American Airlines', 'Korean Air']
+  // Transform Amadeus API data to match existing UI format
+  const transformFlightData = (amadeusFlights) => {
+    if (!amadeusFlights || !Array.isArray(amadeusFlights)) {
+      return []
+    }
+
+    return amadeusFlights.map((offer, index) => {
+      const itinerary = offer.itineraries[0]
+      const segments = itinerary.segments
+      const firstSegment = segments[0]
+      const lastSegment = segments[segments.length - 1]
+      
+      // Calculate total duration
+      const departureTime = new Date(firstSegment.departure.at)
+      const arrivalTime = new Date(lastSegment.arrival.at)
+      const durationMs = arrivalTime - departureTime
+      const hours = Math.floor(durationMs / (1000 * 60 * 60))
+      const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60))
+      
+      // Format stops
+      const stops = segments.length - 1
+      const stopsText = stops === 0 ? 'Nonstop' : `${stops} stop${stops > 1 ? 's' : ''}`
+      
+      return {
+        id: offer.id || index,
+        airline: firstSegment.carrierCode || 'Unknown',
+        airlineLogo: '✈️',
+        departure: departureTime.toLocaleTimeString('en-US', { 
+          hour: 'numeric', 
+          minute: '2-digit',
+          hour12: true 
+        }),
+        arrival: arrivalTime.toLocaleTimeString('en-US', { 
+          hour: 'numeric', 
+          minute: '2-digit',
+          hour12: true 
+        }),
+        duration: `${hours}h ${minutes}m`,
+        stops: stopsText,
+        price: Math.round(parseFloat(offer.price.total)),
+        type: searchData?.returnDate ? 'round trip' : 'one way',
+        originalData: offer // Keep original data for booking
+      }
+    })
+  }
+
+  // Use real data if available, otherwise fall back to mock data
+  const flights = searchData?.flightOffers ? transformFlightData(searchData.flightOffers) : mockFlights
+
+  const airlines = ['all', ...new Set(flights.map(flight => flight.airline))]
   const seatClasses = ['all', 'Economy', 'Premium Economy', 'Business', 'First']
 
   const filteredFlights = flights.filter(flight => {
@@ -135,19 +184,45 @@ function FlightSearchResults({ onNavigate }) {
           <div className="form-row">
             <div className="input-group">
               <span className="icon">✈️</span>
-              <input type="text" placeholder="From where?" value="SFO" readOnly />
+              <input 
+                type="text" 
+                placeholder="From where?" 
+                value={searchData?.from || 'SFO'} 
+                readOnly 
+              />
             </div>
             <div className="input-group">
               <span className="icon">✈️</span>
-              <input type="text" placeholder="Where to?" value="NRT" readOnly />
+              <input 
+                type="text" 
+                placeholder="Where to?" 
+                value={searchData?.to || 'NRT'} 
+                readOnly 
+              />
             </div>
             <div className="input-group">
               <span className="icon">📅</span>
-              <input type="text" placeholder="Depart - Return" value="Feb 12 - Feb 16" readOnly />
+              <input 
+                type="text" 
+                placeholder="Depart - Return" 
+                value={
+                  searchData?.departDate && searchData?.returnDate 
+                    ? `${searchData.departDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${searchData.returnDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+                    : searchData?.departDate 
+                    ? searchData.departDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                    : 'Feb 12 - Feb 16'
+                } 
+                readOnly 
+              />
             </div>
             <div className="input-group">
               <span className="icon">👤</span>
-              <input type="text" placeholder="1 adult" value="1 adult" readOnly />
+              <input 
+                type="text" 
+                placeholder="1 adult" 
+                value={`${searchData?.adults || 1} adult${(searchData?.adults || 1) > 1 ? 's' : ''}${searchData?.minors > 0 ? `, ${searchData.minors} minor${searchData.minors > 1 ? 's' : ''}` : ''}`} 
+                readOnly 
+              />
             </div>
             <button className="search-btn">Search</button>
           </div>
@@ -215,7 +290,12 @@ function FlightSearchResults({ onNavigate }) {
           {/* Flight Listings */}
           <div className="flight-listings">
             <h2>Choose a Departing Flight</h2>
-            <p className="route-info">SFO → NRT • Feb 12 - Feb 16 • 1 adult</p>
+            <p className="route-info">
+              {searchData?.from || 'SFO'} → {searchData?.to || 'NRT'} • 
+              {searchData?.departDate ? searchData.departDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Feb 12'}
+              {searchData?.returnDate ? ` - ${searchData.returnDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` : ' - Feb 16'} • 
+              {searchData?.totalPassengers || 1} passenger{(searchData?.totalPassengers || 1) > 1 ? 's' : ''}
+            </p>
             
             {displayedFlights.map(flight => (
               <div 

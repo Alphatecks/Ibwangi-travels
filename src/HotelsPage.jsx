@@ -64,6 +64,11 @@ function HotelsPage({ onNavigate }) {
     }, 300)
   }
 
+  const handleHotelClick = (hotelData) => {
+    console.log('Hotel clicked:', hotelData)
+    onNavigate('hotel-details', hotelData)
+  }
+
   return (
     <div className="hotels-page">
       {/* Header - Same as existing */}
@@ -310,7 +315,18 @@ function HotelsPage({ onNavigate }) {
           </div>
           
           <div className="weekend-deals-grid">
-            <div className="weekend-deal-card">
+            <div className="weekend-deal-card" onClick={() => handleHotelClick({
+              id: 'obudu-cattle-ranch',
+              name: 'Obudu Cattle Ranch Resort',
+              location: 'Cross River, Nigeria',
+              rating: 8.3,
+              ratingText: 'Very Good',
+              reviewCount: 356,
+              price: 'NGN 207,969',
+              originalPrice: 'NGN 244,669',
+              image: 'https://www.travelstart.com.ng/blog/wp-content/uploads/2014/02/Obudu-Cattle-Ranch1.jpg',
+              badge: 'Getaway Deal'
+            })}>
               <div className="deal-image">
                 <img src="https://www.travelstart.com.ng/blog/wp-content/uploads/2014/02/Obudu-Cattle-Ranch1.jpg" alt="Obudu Cattle Ranch Resort" />
                 <div className="genius-badge">Genius</div>
@@ -340,7 +356,18 @@ function HotelsPage({ onNavigate }) {
               </div>
             </div>
             
-            <div className="weekend-deal-card">
+            <div className="weekend-deal-card" onClick={() => handleHotelClick({
+              id: 'obudu-mountain-resort',
+              name: 'Obudu Mountain Resort & Water Park',
+              location: 'Cross River, Nigeria',
+              rating: 7.0,
+              ratingText: 'Good',
+              reviewCount: 266,
+              price: 'NGN 80,771',
+              originalPrice: 'NGN 95,023',
+              image: 'https://olatorera.com/wp-content/uploads/2020/11/Obudu-Mountain-Resort-water-park.jpg',
+              badge: 'Getaway Deal'
+            })}>
               <div className="deal-image">
                 <img src="https://olatorera.com/wp-content/uploads/2020/11/Obudu-Mountain-Resort-water-park.jpg" alt="Obudu Mountain Resort" />
                 <div 
@@ -369,7 +396,17 @@ function HotelsPage({ onNavigate }) {
               </div>
             </div>
             
-            <div className="weekend-deal-card">
+            <div className="weekend-deal-card" onClick={() => handleHotelClick({
+              id: 'shades-of-luxury',
+              name: 'Shades of Luxury Beach Resort',
+              location: 'Ilashe, Lagos',
+              rating: 7.9,
+              ratingText: 'Good',
+              reviewCount: 13,
+              price: 'NGN 259,395',
+              originalPrice: 'NGN 418,384',
+              image: 'https://images.nigeriapropertycentre.com/properties/images/1443085/06311388a8210b-luxurious-beach-resort-wall-shades-of-luxury-short-let-ilashe-lagos.jpg'
+            })}>
               <div className="deal-image">
                 <img src="https://images.nigeriapropertycentre.com/properties/images/1443085/06311388a8210b-luxurious-beach-resort-wall-shades-of-luxury-short-let-ilashe-lagos.jpg" alt="Luxurious Beach Resort" />
                 <div className="genius-badge">Genius</div>

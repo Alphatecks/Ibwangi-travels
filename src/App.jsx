@@ -3,6 +3,8 @@ import './App.css'
 import FlightSearchResults from './FlightSearchResults.jsx'
 import HotelsPage from './HotelsPage.jsx'
 import SignInPage from './SignInPage.jsx'
+import HotelDetailsPage from './HotelDetailsPage.jsx'
+import { searchFlights } from './services/amadeusService.js'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -23,6 +25,9 @@ function App() {
   const [toSearchTerm, setToSearchTerm] = useState('')
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [searchData, setSearchData] = useState(null)
+  const [hotelDetailsData, setHotelDetailsData] = useState(null)
+  const [isSearching, setIsSearching] = useState(false)
+  const [searchError, setSearchError] = useState(null)
   const datePickerRef = useRef(null)
   const passengerSelectorRef = useRef(null)
   const fromDropdownRef = useRef(null)
@@ -80,6 +85,18 @@ function App() {
     localStorage.setItem('cookiesAccepted', 'true')
   }
 
+  const handleNavigate = (page, data = null) => {
+    setCurrentPage(page)
+    if (data) {
+      setHotelDetailsData(data)
+    }
+  }
+
+  const handleBackToHotels = () => {
+    setCurrentPage('hotels')
+    setHotelDetailsData(null)
+  }
+
   const filterLocations = (searchTerm) => {
     if (!searchTerm) return locations
     return locations.filter(location => 
@@ -102,8 +119,7 @@ function App() {
   }
 
   // Handle search button click
-  const handleSearch = () => {
-    alert('Button clicked!') // Simple test to see if function is called
+  const handleSearch = async () => {
     console.log('handleSearch called')
     console.log('fromLocation:', fromLocation)
     console.log('toLocation:', toLocation)
@@ -114,19 +130,56 @@ function App() {
       return
     }
 
-    const searchData = {
-      from: fromLocation,
-      to: toLocation,
-      departDate: departDate,
-      returnDate: returnDate,
-      adults: adults,
-      minors: minors,
-      totalPassengers: adults + minors
+    setIsSearching(true)
+    setSearchError(null)
+
+    const searchParams = {
+      fromLocation,
+      toLocation,
+      departDate,
+      returnDate,
+      adults,
+      minors
     }
 
-    console.log('searchData:', searchData)
-    setSearchData(searchData)
-    setCurrentPage('flights')
+    try {
+      console.log('Searching flights with params:', searchParams)
+      const result = await searchFlights(searchParams)
+      
+      if (result.success) {
+        const searchData = {
+          from: fromLocation,
+          to: toLocation,
+          departDate: departDate,
+          returnDate: returnDate,
+          adults: adults,
+          minors: minors,
+          totalPassengers: adults + minors,
+          flightOffers: result.data, // Amadeus API response
+          meta: result.meta,
+          isMockData: result.isMockData // Flag to indicate if using mock data
+        }
+        
+        console.log('Search successful:', searchData)
+        setSearchData(searchData)
+        setCurrentPage('flights')
+        
+        // Show info message if using mock data
+        if (result.isMockData) {
+          console.info('Using mock flight data. Configure Amadeus API credentials for real data.')
+        }
+      } else {
+        console.error('Search failed:', result.error)
+        setSearchError(result.error)
+        alert(`Search failed: ${result.error}`)
+      }
+    } catch (error) {
+      console.error('Search error:', error)
+      setSearchError(error.message)
+      alert(`Search error: ${error.message}`)
+    } finally {
+      setIsSearching(false)
+    }
   }
 
   const handleCloseCookies = () => {
@@ -252,7 +305,11 @@ function App() {
   }
   
   if (currentPage === 'hotels') {
-    return <HotelsPage onNavigate={setCurrentPage} />
+    return <HotelsPage onNavigate={handleNavigate} />
+  }
+
+  if (currentPage === 'hotel-details') {
+    return <HotelDetailsPage hotelData={hotelDetailsData} onNavigate={handleNavigate} onBack={handleBackToHotels} />
   }
 
   if (currentPage === 'signin') {
@@ -513,27 +570,26 @@ function App() {
                 </div>
               )}
             </div>
-            <button className="search-btn" onClick={() => {
-              console.log('Button clicked directly!')
-              alert('Button clicked!')
-              if (!fromLocation || !toLocation || !departDate) {
-                alert('Please fill in all required fields (From, To, and Departure Date)')
-                return
-              }
-              const searchData = {
-                from: fromLocation,
-                to: toLocation,
-                departDate: departDate,
-                returnDate: returnDate,
-                adults: adults,
-                minors: minors,
-                totalPassengers: adults + minors
-              }
-              console.log('searchData:', searchData)
-              setSearchData(searchData)
-              setCurrentPage('flights')
-            }}>Search</button>
+            <button 
+              className="search-btn" 
+              onClick={handleSearch}
+              disabled={isSearching}
+            >
+              {isSearching ? (
+                <>
+                  <span className="loading-spinner"></span>
+                  Searching...
+                </>
+              ) : 'Search'}
+            </button>
           </div>
+          
+          {/* Error Display */}
+          {searchError && (
+            <div className="search-error">
+              {searchError}
+            </div>
+          )}
         </div>
       </main>
 
