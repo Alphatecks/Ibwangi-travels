@@ -5,6 +5,7 @@ import HotelsPage from './HotelsPage.jsx'
 import SignInPage from './SignInPage.jsx'
 import HotelDetailsPage from './HotelDetailsPage.jsx'
 import { searchFlights } from './services/amadeusService.js'
+import { searchFlightsSkyscanner, shouldUseSkyscanner } from './services/skyscannerService.js'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -28,13 +29,29 @@ function App() {
   const [hotelDetailsData, setHotelDetailsData] = useState(null)
   const [isSearching, setIsSearching] = useState(false)
   const [searchError, setSearchError] = useState(null)
+  const [tripType, setTripType] = useState('roundTrip')
+  
+  const handleTripTypeChange = (newTripType) => {
+    setTripType(newTripType)
+    if (newTripType === 'oneWay') {
+      setReturnDate('') // Clear return date for one-way trips
+    }
+  }
   const datePickerRef = useRef(null)
   const passengerSelectorRef = useRef(null)
   const fromDropdownRef = useRef(null)
   const toDropdownRef = useRef(null)
 
-  // Sample location data
+  // Sample location data - Updated with Nigerian cities
   const locations = [
+    // Nigerian cities (prioritized) - Using verified IATA codes
+    { city: 'Lagos', code: 'LOS', country: 'Nigeria' },
+    { city: 'Abuja', code: 'ABV', country: 'Nigeria' },
+    { city: 'Port Harcourt', code: 'PHC', country: 'Nigeria' },
+    { city: 'Kano', code: 'KAN', country: 'Nigeria' },
+    { city: 'Enugu', code: 'ENU', country: 'Nigeria' },
+    { city: 'Calabar', code: 'CBQ', country: 'Nigeria' },
+    // International cities
     { city: 'New York', code: 'JFK', country: 'United States' },
     { city: 'London', code: 'LHR', country: 'United Kingdom' },
     { city: 'Tokyo', code: 'NRT', country: 'Japan' },
@@ -62,7 +79,6 @@ function App() {
     { city: 'Cairo', code: 'CAI', country: 'Egypt' },
     { city: 'Nairobi', code: 'NBO', country: 'Kenya' },
     { city: 'Cape Town', code: 'CPT', country: 'South Africa' },
-    { city: 'Lagos', code: 'LOS', country: 'Nigeria' },
     { city: 'Mumbai', code: 'BOM', country: 'India' },
     { city: 'Delhi', code: 'DEL', country: 'India' },
     { city: 'Bangkok', code: 'BKK', country: 'Thailand' },
@@ -78,6 +94,10 @@ function App() {
     { city: 'Lima', code: 'LIM', country: 'Peru' },
     { city: 'Bogotá', code: 'BOG', country: 'Colombia' }
   ]
+
+  // Debug logging
+  console.log('App loaded with', locations.length, 'locations')
+  console.log('Nigerian cities:', locations.filter(loc => loc.country === 'Nigeria'))
 
   const handleAcceptCookies = () => {
     setCookiesAccepted(true)
@@ -99,11 +119,13 @@ function App() {
 
   const filterLocations = (searchTerm) => {
     if (!searchTerm) return locations
-    return locations.filter(location => 
+    const filtered = locations.filter(location => 
       location.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
       location.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       location.country.toLowerCase().includes(searchTerm.toLowerCase())
     )
+    console.log('Search for "' + searchTerm + '":', filtered.length, 'results')
+    return filtered
   }
 
   const handleLocationSelect = (location, type) => {
@@ -129,13 +151,22 @@ function App() {
       alert('Please fill in all required fields (From, To, and Departure Date)')
       return
     }
+    
+    if (tripType === 'roundTrip' && !returnDate) {
+      alert('Please select a return date for round trip')
+      return
+    }
 
     setIsSearching(true)
     setSearchError(null)
 
+    // Extract airport codes from location strings
+    const fromCode = fromLocation.match(/\(([A-Z]{3})\)/)?.[1]
+    const toCode = toLocation.match(/\(([A-Z]{3})\)/)?.[1]
+
     const searchParams = {
-      fromLocation,
-      toLocation,
+      fromLocation: fromCode || fromLocation,
+      toLocation: toCode || toLocation,
       departDate,
       returnDate,
       adults,
@@ -144,7 +175,17 @@ function App() {
 
     try {
       console.log('Searching flights with params:', searchParams)
-      const result = await searchFlights(searchParams)
+      
+      // Determine which API to use based on route
+      const useSkyscanner = shouldUseSkyscanner(fromCode, toCode)
+      console.log(`🔄 Using ${useSkyscanner ? 'Skyscanner' : 'Amadeus'} API for route: ${fromCode} → ${toCode}`)
+      
+      let result
+      if (useSkyscanner) {
+        result = await searchFlightsSkyscanner(searchParams)
+      } else {
+        result = await searchFlights(searchParams)
+      }
       
       if (result.success) {
         const searchData = {
@@ -155,21 +196,28 @@ function App() {
           adults: adults,
           minors: minors,
           totalPassengers: adults + minors,
-          flightOffers: result.data, // Amadeus API response
+          flightOffers: result.data,
           meta: result.meta,
-          isMockData: result.isMockData // Flag to indicate if using mock data
+          isSkyscannerData: result.isSkyscannerData || false,
+          isMockData: result.isMockData || false,
+          apiUsed: useSkyscanner ? 'Skyscanner' : 'Amadeus'
         }
         
         console.log('Search successful:', searchData)
         setSearchData(searchData)
         setCurrentPage('flights')
         
-        // Show info message if using mock data
-        if (result.isMockData) {
-          console.info('Using mock flight data. Configure Amadeus API credentials for real data.')
+        // Show info message about API used
+        if (result.isSkyscannerData) {
+          console.info('✅ Using Skyscanner API for Nigerian domestic routes')
+        } else if (result.isMockData) {
+          console.info('⚠️ Using mock flight data. Configure API credentials for real data.')
+        } else {
+          console.info('✅ Using Amadeus API for international routes')
         }
       } else {
         console.error('Search failed:', result.error)
+        console.log('Result object:', result)
         setSearchError(result.error)
         alert(`Search failed: ${result.error}`)
       }
@@ -245,7 +293,14 @@ function App() {
 
   const handleDateSelect = (date) => {
     try {
-      if (!departDate || (departDate && returnDate)) {
+      if (tripType === 'oneWay') {
+        // For one-way trips, just set departure date
+        setDepartDate(date)
+        setReturnDate('')
+        setShowDatePicker(false)
+      } else {
+        // For round trips, handle departure and return dates
+        if (!departDate || (departDate && returnDate)) {
         setDepartDate(date)
         setReturnDate('')
       } else {
@@ -255,6 +310,7 @@ function App() {
         } else {
           setDepartDate(date)
           setReturnDate('')
+          }
         }
       }
     } catch (error) {
@@ -371,12 +427,24 @@ function App() {
         {/* Trip Type Selection */}
         <div className="trip-type-selection">
           <label className="radio-option">
-            <input type="radio" name="tripType" value="roundTrip" defaultChecked />
+            <input 
+              type="radio" 
+              name="tripType" 
+              value="roundTrip" 
+              checked={tripType === 'roundTrip'}
+              onChange={(e) => handleTripTypeChange(e.target.value)}
+            />
             <span className="radio-custom"></span>
             Round trip
           </label>
           <label className="radio-option">
-            <input type="radio" name="tripType" value="oneWay" />
+            <input 
+              type="radio" 
+              name="tripType" 
+              value="oneWay" 
+              checked={tripType === 'oneWay'}
+              onChange={(e) => handleTripTypeChange(e.target.value)}
+            />
             <span className="radio-custom"></span>
             One way
           </label>
@@ -467,13 +535,16 @@ function App() {
               <span className="icon">📅</span>
               <input 
                 type="text" 
-                placeholder="Depart - Return" 
+                placeholder={tripType === 'roundTrip' ? "Depart - Return" : "Departure Date"} 
                 readOnly
                 onClick={() => {
                   console.log('Date picker clicked')
                   setShowDatePicker(!showDatePicker)
                 }}
-                value={departDate && returnDate ? `${formatDate(departDate)} - ${formatDate(returnDate)}` : ''}
+                value={tripType === 'roundTrip' 
+                  ? (departDate && returnDate ? `${formatDate(departDate)} - ${formatDate(returnDate)}` : '')
+                  : (departDate ? formatDate(departDate) : '')
+                }
               />
               {showDatePicker && (
                 <div className="date-picker">

@@ -55,10 +55,18 @@ const getAccessToken = async () => {
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to get access token: ${response.status} ${response.statusText}`);
+    const errorData = await response.json();
+    console.error('❌ Token generation failed:', errorData);
+    throw new Error(`Failed to get access token: ${response.status} ${response.statusText} - ${JSON.stringify(errorData)}`);
   }
 
   const data = await response.json();
+  console.log('🔑 Access token received:', data.access_token ? `${data.access_token.substring(0, 20)}...` : 'No token');
+  
+  if (!data.access_token) {
+    throw new Error('No access token received from Amadeus API');
+  }
+  
   return data.access_token;
 };
 
@@ -119,7 +127,31 @@ export const searchFlights = async (searchParams) => {
 
     console.log('📡 Making API call with params:', Object.fromEntries(urlSearchParams));
 
-    // Make API call
+    // Try Flight Inspiration API first (better coverage for some routes)
+    try {
+      console.log('🔄 Trying Flight Inspiration API first...');
+      const inspirationResponse = await fetch(`https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=${originLocationCode}&departureDate=${departureDate}&oneWay=${!returnDateFormatted}&max=10`, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (inspirationResponse.ok) {
+        const inspirationData = await inspirationResponse.json();
+        console.log('✅ Flight Inspiration API successful!');
+        return {
+          success: true,
+          data: inspirationData.data || [],
+          meta: inspirationData.meta || { count: 0 },
+          isInspirationData: true
+        };
+      }
+    } catch (error) {
+      console.log('⚠️ Flight Inspiration API failed, trying Flight Offers API...');
+    }
+
+    // Make API call to test environment only (test credentials only work with test API)
     const response = await fetch(`https://test.api.amadeus.com/v2/shopping/flight-offers?${urlSearchParams}`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
